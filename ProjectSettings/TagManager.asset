@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ground
+  - Apple_0
+  - Kunai
   layers:
   - Default
   - TransparentFX

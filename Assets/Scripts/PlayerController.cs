@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Animator animator;
 
+    public KunaiController kunaiController; // Referencia al script del kunai
+    private bool kunaiHabilitado = false;   // Solo se puede lanzar si es true
+
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -37,7 +40,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey("space") && CheckGround.isGrounded)
         {
             rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpSpeed);
-
         }
         if (CheckGround.isGrounded == false)
         {
@@ -48,5 +50,28 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Jump", false);
         }
+
+        // Habilitar kunai con la tecla P
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            kunaiHabilitado = true;
+        }
+
+        // Solo lanzar kunai si está habilitado
+        if (kunaiHabilitado && kunaiController != null && Input.GetKeyDown(KeyCode.L))
+        {
+            kunaiController.LanzarKunai();
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Manzana"))
+        {
+            Destroy(other.gameObject);
+            // Aquí puedes sumar puntaje si lo deseas
+        }
     }
 }
+
+
